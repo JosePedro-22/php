@@ -1,12 +1,10 @@
 <?php
+    //secao funciona enquanto o navegador estiver aberto, o cookie tem um validade especifica e fica armazenado no seu computador!
     session_start();
     require('header.php');
-
-    if($_SESSION['aviso']) {
-        echo $_SESSION['aviso'].'</br>';
-        $_SESSION['aviso'] = '';
-    }
 ?>
+    <a href="apagar.php">Apagar Cookie</a></br></br>
+
 <form method="POST" action="getResponse.php" >
     <label>Nome: </label>
     <input type="text" name="name" value="" /></br></br>
