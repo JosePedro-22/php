@@ -1,4 +1,8 @@
 <?php
+require ('classes/matematica/index.php');
+
+// use namespace...
+use classes\matematica\matematica as Matematica;
 
 Class Pessoa {
     public int $id;
@@ -61,3 +65,8 @@ echo "<br/><br/>Cachorro<br/>";
 $caramelo = new Cachorro(1);
 $caramelo->setCorPelo('amarelo');
 echo $caramelo->getCorPelo();
+
+echo "<br/><br/>";
+
+$aluno = new Matematica();
+echo $aluno->getValorPi();
