@@ -10,7 +10,7 @@ class UsuarioDaoPsql implements UsuarioDAO{
     }   
 
     public function add(Usuario $user){
-    
+
         $sql = $this->pdo->prepare('INSERT INTO users (name, email, password) VALUES (:name, :email, :password)');
 
         $sql->bindValue(':name', $user->getName());
@@ -18,7 +18,7 @@ class UsuarioDaoPsql implements UsuarioDAO{
         $sql->bindValue(':password', $user->getPassword());
         $sql->execute();
 
-        $sql->setId( $this->pdo->lastInsertId() );
+        $sql = $this->pdo->lastInsertId();
 
         return $user;
     }

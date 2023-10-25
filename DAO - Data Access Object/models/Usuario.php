@@ -26,7 +26,7 @@ Class Usuario{
     }
     
     public function getPassword(){
-        return $this->id;
+        return $this->password;
     }
     public function setPassword($password_user){
         $this->password = $password_user;
