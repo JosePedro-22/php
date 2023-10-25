@@ -1,38 +1,31 @@
 <?php
-    require('config.php');
+    require 'config.php';
+    require 'dao/UsuarioDaoPgsql.php';
+
+    $usuarioDao = New UsuarioDaoPsql($pdo);
+    $usuario = false;
 
     $id = filter_input(INPUT_GET, 'id');
     $info = [];
 
-    if(!$id){
+    if(!$id || !$usuario = $usuarioDao->findById($id)){
         header('Location:index.php');
         exit();
     }
-
-    $sql = $pdo->prepare('SELECT * FROM users WHERE id = :id');
-    $sql->bindParam(':id', $id);
-    $sql->execute();
-
-    if(!($sql->rowCount() > 0)){
-        header('Location:index.php');
-        exit();
-    }
-    
-    $info = $sql->fetch( PDO::FETCH_ASSOC );
 
 ?>
 <form method="POST" action="editar_action.php">
     <h2>Editar User</h2>
     
     <label>NOME:</label>
-    <input type="text" name="name" value="<?=$info['name']?>"/><br/><br/>
+    <input type="text" name="name" value="<?=$usuario->getName();?>"/><br/><br/>
 
     <label>EMAIL</label>
-    <input type="text" name="email" value="<?=$info['email']?>"/><br/><br/>
+    <input type="text" name="email" value="<?=$usuario->getEmail();?>"/><br/><br/>
     
     <label>PASSWORD</label>
-    <input type="text" name="password" value="<?=$info['password']?>"/><br/><br/>
+    <input type="text" name="password" value="<?=$usuario->getPassword();?>"/><br/><br/>
 
     <button type="submit">Enviar</button>
-    <input type="hidden" name="id" value="<?=$info['id']?>"/><br/><br/>
+    <input type="hidden" name="id" value="<?=$usuario->getId();?>"/><br/><br/>
 </form>

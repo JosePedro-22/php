@@ -1,17 +1,17 @@
 <?php
     require('config.php');
+    require 'dao/UsuarioDaoPgsql.php';
+
+    $usuarioDao = New UsuarioDaoPsql($pdo);
 
     $id = filter_input(INPUT_GET, 'id');
-    $info = [];
 
     if(!$id){
         header('Location:index.php');
         exit();
     }
 
-    $sql = $pdo->prepare('DELETE FROM users WHERE id = :id');
-    $sql->bindParam(':id', $id);
-    $sql->execute();
+    $usuarioDao->delete($id);
 
     header('Location:index.php');
     exit();

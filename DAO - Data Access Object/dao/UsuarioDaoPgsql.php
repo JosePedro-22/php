@@ -62,12 +62,41 @@ class UsuarioDaoPsql implements UsuarioDAO{
         return $user;
     }
     public function findById($id){
+        $sql = $this->pdo->prepare('SELECT * FROM users WHERE id = :id');
+        $sql->bindValue(':id',$id);
+        $sql->execute();
 
+        if(!($sql->rowCount() > 0)){
+            return false;
+        }
+
+        $data = $sql->fetch();
+
+        $user = new Usuario();
+        $user->setId($data['id']);
+        $user->setName($data['name']);
+        $user->setEmail($data['email']);
+        $user->setPassword($data['password']);
+
+        return $user;
     }
     public function update(Usuario $user){
+        $sql = $this->pdo->prepare('UPDATE users SET name = :name, email = :email, password = :password WHERE id = :id');
 
+        $sql->bindParam(':name', $user->getName());
+        $sql->bindParam(':email', $user->getEmail());
+        $sql->bindParam(':password', $user->getPassword());
+        $sql->bindParam(':id', $user->getId());
+        $sql->execute();
+
+        return true;
     }
     public function delete($id){
-        
+
+        $sql = $this->pdo->prepare('DELETE FROM users WHERE id = :id');
+        $sql->bindParam(':id', $id);
+        $sql->execute();
+
+        return true;
     }
 }
