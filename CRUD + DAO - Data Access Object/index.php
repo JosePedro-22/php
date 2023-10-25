@@ -3,6 +3,7 @@ require 'config.php';
 require 'dao/UsuarioDaoPgsql.php';
 
 $usuarioDao = New UsuarioDaoPsql($pdo);
+
 $list = $usuarioDao->findAll();
 ?>
 
