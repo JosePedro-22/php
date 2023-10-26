@@ -1,6 +1,3 @@
-
-https://medium.com/desenvolvendo-com-paixao/o-que-%C3%A9-solid-o-guia-completo-para-voc%C3%AA-entender-os-5-princ%C3%ADpios-da-poo-2b937b3fc530
-
 S - Single Responsiblity Principle (Princípio da responsabilidade única)
 O - Open-Closed Principle (Princípio Aberto-Fechado)
 L - Liskov Substitution Principle (Princípio da substituição de Liskov)
@@ -354,3 +351,60 @@ De acordo com Uncle Bob, esse princípio pode ser definido da seguinte forma:
 1. Módulos de alto nível não devem depender de módulos de baixo nível. Ambos devem depender da abstração.
 
 2. Abstrações não devem depender de detalhes. Detalhes devem depender de abstrações.
+
+Importante: Inversão de Dependência não é igual a Injeção de Dependência, fique ciente disso! A Inversão de Dependência é um princípio (Conceito) e a Injeção de Dependência é um padrão de projeto (Design Pattern).
+
+use MySQLConnection;
+
+class PasswordReminder
+{
+    private $dbConnection;
+    
+    public function __construct()
+    {       
+        $this->dbConnection = new MySQLConnection();           
+    }
+    
+    // Faz alguma coisa
+}
+
+Nesse pequeno trecho de código temos um alto nível de acoplamento, isso acontece porque a classe PasswordReminder tem a responsabilidade de criar uma instância da classe MySQLConnection! Se quiséssemos reaproveitar essa classe em outro sistema, teriamos obrigatoriamente de levar a classe MySQLConnection junto, portanto, temos um forte acoplamento aqui.
+
+interface DBConnectionInterface
+{
+    public function connect();
+}
+
+
+class MySQLConnection implements DBConnectionInterface
+{
+    public function connect()
+    {
+        // ...
+    }
+}
+
+class OracleConnection implements DBConnectionInterface
+{
+    public function connect()
+    {
+        // ...
+    }
+}
+
+class PasswordReminder
+{
+    private $dbConnection;
+
+    public function __construct(DBConnectionInterface $dbConnection) {
+        $this->dbConnection = $dbConnection;
+    }
+  
+    // Faz alguma coisa
+}
+
+Conclusão
+
+A sistemática dos princípios SOLID tornam o software mais robusto, escalável e flexível, deixando-o tolerante a mudanças, facilitando a implementação de novos requisitos para a evolução e manutenção do sistema.
+
+Pode ser um pouco assustador no início usar todos esses princípios — nem sempre conseguiremos aplicar todos em nosso projeto — mas com a prática e constância, aos poucos vamos adquirindo a experiência necessária para escrever códigos cada vez mais maduros, os princípios SOLID servem como guias pra isso.
